@@ -5,3 +5,4 @@ declare module "react-native" {
     VirtualizedListProps<ItemT>
   > {}
 }
+declare module "react-native-video-controls";
