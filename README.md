@@ -42,7 +42,7 @@ const media = [
 const [visible, setIsVisible] = useState(false);
 
 <MediaViewing
-  images={media}
+  media={media}
   imageIndex={0}
   visible={visible}
   onRequestClose={() => setIsVisible(false)}
@@ -56,7 +56,7 @@ const [visible, setIsVisible] = useState(false);
 | Prop name                | Description                                                                                         | Type                                                        | Required |
 | ------------------------ | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | -------- |
 | `images`                 | Array of images to display                                                                          | MediaSource[]                                               | true     |
-| `keyExtractor`           | Uniqely identifying each image                                                                      | (imageSrc: MediaSource, index: number) => string            | false    |
+| `keyExtractor`           | Uniqely identifying each image                                                                      | (mediaSrc: MediaSource, index: number) => string            | false    |
 | `imageIndex`             | Current index of image to display                                                                   | number                                                      | true     |
 | `visible`                | Is modal shown or not                                                                               | boolean                                                     | true     |
 | `onRequestClose`         | Function called to close the modal                                                                  | function                                                    | true     |

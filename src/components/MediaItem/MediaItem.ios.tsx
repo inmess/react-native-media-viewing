@@ -1,13 +1,5 @@
-/**
- * Copyright (c) JOB TODAY S.A. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import React, { useCallback, useRef, useState } from "react";
-
+import VideoPlayer from "react-native-video-controls";
 import {
   Animated,
   Dimensions,
@@ -34,7 +26,7 @@ const SCREEN_WIDTH = SCREEN.width;
 const SCREEN_HEIGHT = SCREEN.height;
 
 type Props = {
-  imageSrc: MediaSource;
+  mediaSrc: MediaSource;
   onRequestClose: () => void;
   onZoom: (scaled: boolean) => void;
   onLongPress: (image: MediaSource) => void;
@@ -44,7 +36,7 @@ type Props = {
 };
 
 const MediaItem = ({
-  imageSrc,
+  mediaSrc,
   onZoom,
   onRequestClose,
   onLongPress,
@@ -55,7 +47,7 @@ const MediaItem = ({
   const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
   const [scaled, setScaled] = useState(false);
-  const imageDimensions = useImageDimensions(imageSrc);
+  const imageDimensions = useImageDimensions(mediaSrc);
   const handleDoubleTap = useDoubleTapToZoom(scrollViewRef, scaled, SCREEN);
 
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
@@ -108,9 +100,9 @@ const MediaItem = ({
 
   const onLongPressHandler = useCallback(
     (event: GestureResponderEvent) => {
-      onLongPress(imageSrc);
+      onLongPress(mediaSrc);
     },
-    [imageSrc, onLongPress]
+    [mediaSrc, onLongPress]
   );
 
   return (
@@ -131,17 +123,31 @@ const MediaItem = ({
         })}
       >
         {(!loaded || !imageDimensions) && <MediaLoading />}
-        <TouchableWithoutFeedback
-          onPress={doubleTapToZoomEnabled ? handleDoubleTap : undefined}
-          onLongPress={onLongPressHandler}
-          delayLongPress={delayLongPress}
-        >
-          <Animated.Image
-            source={imageSrc}
-            style={imageStylesWithOpacity}
+        {mediaSrc.mediaType === "image" && (
+          <TouchableWithoutFeedback
+            onPress={doubleTapToZoomEnabled ? handleDoubleTap : undefined}
+            onLongPress={onLongPressHandler}
+            delayLongPress={delayLongPress}
+          >
+            <Animated.Image
+              source={mediaSrc}
+              style={imageStylesWithOpacity}
+              onLoad={() => setLoaded(true)}
+            />
+          </TouchableWithoutFeedback>
+        )}
+        {mediaSrc.mediaType === "video" && (
+          <VideoPlayer
+            source={mediaSrc}
+            navigator={null}
+            disableBack
+            disableVolume
+            disableFullscreen
+            style={styles.containerMedia}
             onLoad={() => setLoaded(true)}
+            paused
           />
-        </TouchableWithoutFeedback>
+        )}
       </ScrollView>
     </View>
   );
@@ -154,6 +160,10 @@ const styles = StyleSheet.create({
   },
   imageScrollContainer: {
     height: SCREEN_HEIGHT,
+  },
+  containerMedia: {
+    width: SCREEN_WIDTH,
+    height: "100%",
   },
 });
 

@@ -1,13 +1,5 @@
-/**
- * Copyright (c) JOB TODAY S.A. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import React, { useCallback, useRef, useState } from "react";
-
+import VideoPlayer from "react-native-video-controls";
 import {
   Animated,
   ScrollView,
@@ -32,7 +24,7 @@ const SCREEN_WIDTH = SCREEN.width;
 const SCREEN_HEIGHT = SCREEN.height;
 
 type Props = {
-  imageSrc: MediaSource;
+  mediaSrc: MediaSource;
   onRequestClose: () => void;
   onZoom: (isZoomed: boolean) => void;
   onLongPress: (image: MediaSource) => void;
@@ -42,7 +34,7 @@ type Props = {
 };
 
 const MediaItem = ({
-  imageSrc,
+  mediaSrc,
   onZoom,
   onRequestClose,
   onLongPress,
@@ -51,7 +43,7 @@ const MediaItem = ({
   doubleTapToZoomEnabled = true,
 }: Props) => {
   const imageContainer = useRef<ScrollView & NativeMethodsMixin>(null);
-  const imageDimensions = useImageDimensions(imageSrc);
+  const imageDimensions = useImageDimensions(mediaSrc);
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
   const scrollValueY = new Animated.Value(0);
   const [isLoaded, setLoadEnd] = useState(false);
@@ -70,8 +62,8 @@ const MediaItem = ({
   );
 
   const onLongPressHandler = useCallback(() => {
-    onLongPress(imageSrc);
-  }, [imageSrc, onLongPress]);
+    onLongPress(mediaSrc);
+  }, [mediaSrc, onLongPress]);
 
   const [panHandlers, scaleValue, translateValue] = usePanResponder({
     initialScale: scale || 1,
@@ -131,12 +123,26 @@ const MediaItem = ({
         onScrollEndDrag,
       })}
     >
-      <Animated.Image
-        {...panHandlers}
-        source={imageSrc}
-        style={imageStylesWithOpacity}
-        onLoad={onLoaded}
-      />
+      {mediaSrc.mediaType === "image" && (
+        <Animated.Image
+          {...panHandlers}
+          source={mediaSrc}
+          style={imageStylesWithOpacity}
+          onLoad={onLoaded}
+        />
+      )}
+      {mediaSrc.mediaType === "video" && (
+        <VideoPlayer
+          source={mediaSrc}
+          navigator={null}
+          disableBack
+          disableVolume
+          disableFullscreen
+          style={styles.containerMedia}
+          onLoad={onLoaded}
+          paused
+        />
+      )}
       {(!isLoaded || !imageDimensions) && <MediaLoading />}
     </ScrollView>
   );
@@ -149,6 +155,10 @@ const styles = StyleSheet.create({
   },
   imageScrollContainer: {
     height: SCREEN_HEIGHT * 2,
+  },
+  containerMedia: {
+    width: SCREEN_WIDTH,
+    height: "100%",
   },
 });
 

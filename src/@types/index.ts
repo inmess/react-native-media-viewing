@@ -6,7 +6,7 @@
  *
  */
 
-import { ImageURISource, ImageRequireSource } from "react-native";
+import { ImageURISource } from "react-native";
 
 export type Dimensions = {
   width: number;
@@ -17,5 +17,9 @@ export type Position = {
   x: number;
   y: number;
 };
+export type MediaType = "image" | "video";
+export interface IMediaSource extends ImageURISource {
+  mediaType: MediaType;
+}
 
-export type MediaSource = ImageURISource | ImageRequireSource;
+export type MediaSource = IMediaSource;

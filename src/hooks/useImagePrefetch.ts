@@ -10,9 +10,9 @@ import { useEffect } from "react";
 import { Image } from "react-native";
 import { MediaSource } from "../@types";
 
-const useImagePrefetch = (images: MediaSource[]) => {
+const useImagePrefetch = (media: MediaSource[]) => {
   useEffect(() => {
-    images.forEach((image) => {
+    media.forEach((image) => {
       //@ts-ignore
       if (image.uri) {
         //@ts-ignore

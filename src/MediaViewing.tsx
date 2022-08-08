@@ -27,8 +27,8 @@ import useRequestClose from "./hooks/useRequestClose";
 import { MediaSource } from "./@types";
 
 type Props = {
-  images: MediaSource[];
-  keyExtractor?: (imageSrc: MediaSource, index: number) => string;
+  media: MediaSource[];
+  keyExtractor?: (mediaSrc: MediaSource, index: number) => string;
   imageIndex: number;
   visible: boolean;
   onRequestClose: () => void;
@@ -51,7 +51,7 @@ const SCREEN = Dimensions.get("screen");
 const SCREEN_WIDTH = SCREEN.width;
 
 function MediaViewing({
-  images,
+  media,
   keyExtractor,
   imageIndex,
   visible,
@@ -115,7 +115,7 @@ function MediaViewing({
         </Animated.View>
         <VirtualizedList
           ref={imageList}
-          data={images}
+          data={media}
           horizontal
           pagingEnabled
           windowSize={2}
@@ -124,17 +124,17 @@ function MediaViewing({
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           initialScrollIndex={imageIndex}
-          getItem={(_, index) => images[index]}
-          getItemCount={() => images.length}
+          getItem={(_, index) => media[index]}
+          getItemCount={() => media.length}
           getItemLayout={(_, index) => ({
             length: SCREEN_WIDTH,
             offset: SCREEN_WIDTH * index,
             index,
           })}
-          renderItem={({ item: imageSrc }) => (
+          renderItem={({ item: mediaSrc }) => (
             <MediaItem
               onZoom={onZoom}
-              imageSrc={imageSrc}
+              mediaSrc={mediaSrc}
               onRequestClose={onRequestCloseEnhanced}
               onLongPress={onLongPress}
               delayLongPress={delayLongPress}
@@ -144,12 +144,12 @@ function MediaViewing({
           )}
           onMomentumScrollEnd={onScroll}
           //@ts-ignore
-          keyExtractor={(imageSrc, index) =>
+          keyExtractor={(mediaSrc, index) =>
             keyExtractor
-              ? keyExtractor(imageSrc, index)
-              : typeof imageSrc === "number"
-              ? `${imageSrc}`
-              : imageSrc.uri
+              ? keyExtractor(mediaSrc, index)
+              : typeof mediaSrc === "number"
+              ? `${mediaSrc}`
+              : mediaSrc.uri
           }
         />
         {typeof FooterComponent !== "undefined" && (
