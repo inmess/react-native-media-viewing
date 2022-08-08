@@ -58,7 +58,7 @@ const [visible, setIsVisible] = useState(false);
 
 | Prop name                | Description                                                                                         | Type                                                        | Required |
 | ------------------------ | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | -------- |
-| `images`                 | Array of images to display                                                                          | MediaSource[]                                               | true     |
+| `media`                  | Array of images and videos to display                                                               | MediaSource[]                                               | true     |
 | `keyExtractor`           | Uniqely identifying each image                                                                      | (mediaSrc: MediaSource, index: number) => string            | false    |
 | `imageIndex`             | Current index of image to display                                                                   | number                                                      | true     |
 | `visible`                | Is modal shown or not                                                                               | boolean                                                     | true     |
