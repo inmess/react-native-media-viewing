@@ -30,12 +30,15 @@ import MediaViewing from "react-native-media-viewing";
 const media = [
   {
     uri: "https://images.unsplash.com/photo-1571501679680-de32f1e7aad4",
+    mediaType: "image",
   },
   {
     uri: "https://images.unsplash.com/photo-1573273787173-0eb81a833b34",
+    mediaType: "image",
   },
   {
     uri: "https://images.unsplash.com/photo-1569569970363-df7b6160d111",
+    mediaType: "image",
   },
 ];
 
@@ -71,7 +74,7 @@ const [visible, setIsVisible] = useState(false);
 | `HeaderComponent`        | Header component, gets current `imageIndex` as a prop                                               | component, function                                         | false    |
 | `FooterComponent`        | Footer component, gets current `imageIndex` as a prop                                               | component, function                                         | false    |
 
-- type MediaSource = ImageURISource | ImageRequireSource
+- type MediaSource = ImageURISource
 
 ## Contributing
 
