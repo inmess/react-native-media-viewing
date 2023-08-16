@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         height: SCREEN_HEIGHT,
     },
     imageScrollContainer: {
-        height: SCREEN_HEIGHT * 2,
+        // height: SCREEN_HEIGHT * 2,
+        height: '90%',
     },
     containerMedia: {
         width: SCREEN_WIDTH,
