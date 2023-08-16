@@ -140,7 +140,7 @@ const MediaItem = ({
           disableFullscreen
           style={styles.containerMedia}
           onLoad={onLoaded}
-          paused
+          paused={false}
         />
       )}
       {(!isLoaded || !imageDimensions) && <MediaLoading />}
